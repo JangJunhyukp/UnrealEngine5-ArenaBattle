@@ -155,7 +155,7 @@ void AABCharacterBase::ComboActionBegin()
     GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_None);
 
     // Animation Setting
-    const float AttackSpeedRate = 1.0f;
+    const float AttackSpeedRate = 1.3f;
     UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
     AnimInstance->Montage_Play(ComboActionMontage, AttackSpeedRate);
 
@@ -210,7 +210,7 @@ void AABCharacterBase::AttackHitCheck()
 
     const float AttackRange = 40.0f;
     const float AttackRadius = 50.0f;
-    const float AttackDamage = 30.0f;
+    const float AttackDamage = 100.0f;
     const FVector Start = GetActorLocation() + GetActorForwardVector() * GetCapsuleComponent()->GetScaledCapsuleRadius();
     const FVector End = Start + GetActorForwardVector() * AttackRange;
 
