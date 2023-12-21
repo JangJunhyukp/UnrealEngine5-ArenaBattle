@@ -7,6 +7,8 @@
 #include "Physics/ABCollision.h"
 #include "Character/ABCharacterNonPlayer.h"
 #include "Item/ABItemBox.h"
+#include "Interface/ABGameInterface.h"
+#include "Game/ABGameMode.h"
 
 // Sets default values
 AABStageGimmick::AABStageGimmick()
@@ -101,7 +103,7 @@ void AABStageGimmick::OnGateTriggerBeginOverlap(UPrimitiveComponent* OverlappedC
         OverlapResults,
         NewLocation,
         FQuat::Identity,
-        FCollisionObjectQueryParams::InitType::AllStaticObjects,
+        FCollisionObjectQueryParams::InitType::AllObjects,
         FCollisionShape::MakeSphere(775.0f),
         CollisionQueryParam
     );
@@ -193,6 +195,16 @@ void AABStageGimmick::SetChooseNext()
 
 void AABStageGimmick::OnOpponentDestroyed(AActor* DestroyActor)
 {
+    IABGameInterface* ABGameMode = Cast<IABGameInterface>(GetWorld()->GetAuthGameMode());
+    if (ABGameMode)
+    {
+        ABGameMode->OnPlayerScoreChanged(CurrentStageNum);
+        if (ABGameMode->IsGameCleared())
+        {
+            return;
+        }
+    }
+
     SetState(EStageState::REWARD);
 }
 
